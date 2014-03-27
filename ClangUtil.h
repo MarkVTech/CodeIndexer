@@ -37,6 +37,16 @@ std::string getClangString(CXString cxstr);
 
 LocationInfo getLocationInfo(const CXCursor& cursor);
 
+std::string toStdString(CXString str);
+
+std::string toStdString(CXCursor cursor);
+
+std::string toStdString(CXToken token, CXTranslationUnit tu);
+
+std::string toStdString(CXCursorKind kind);
+
+std::string toStdString(CXType type);
+
 LocationInfo getLocationInfo(const CXSourceLocation& location);
 
 #endif

@@ -30,6 +30,44 @@ getClangString(CXString str)
     }
 }
 
+std::string
+toStdString(CXString cxstr)
+{
+    const char* tmp = clang_getCString(cxstr);
+    if (tmp == NULL)
+    {
+        return "";
+    }
+    else
+    {
+        std::string translated = std::string(tmp);
+        clang_disposeString(cxstr);
+        return translated;
+    }
+}
+
+std::string toStdString(CXCursor cursor)
+{
+    return toStdString(clang_getCursorSpelling(cursor));
+}
+
+std::string toStdString(CXCursorKind kind)
+{
+    return toStdString(clang_getCursorKindSpelling(kind));
+}
+
+std::string toStdString(CXToken token, CXTranslationUnit tu)
+{
+    return toStdString(clang_getTokenSpelling(tu, token));
+}
+
+std::string toStdString(CXType type)
+{
+    return toStdString(clang_getTypeSpelling(type));
+}
+
+
+
 LocationInfo
 getLocationInfo(const CXSourceLocation& location)
 {
