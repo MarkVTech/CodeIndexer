@@ -3,6 +3,12 @@
 
 #include <QObject>
 
+namespace Contrived
+{
+
+namespace MoreContrived
+{
+
 class Counter : public QObject
 {
 Q_OBJECT
@@ -54,5 +60,9 @@ signals:
 private:
     int count_;
 };
+
+}
+
+}
 
 #endif

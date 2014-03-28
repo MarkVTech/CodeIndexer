@@ -438,7 +438,7 @@ visit(CXCursor cursor, CXCursor parent)
     if ( !clang_Location_isFromMainFile(clang_getCursorLocation(cursor)) )
         return CXChildVisit_Continue;
 
-     cout << "\tparent kind is " << toStdString(parent.kind);
+     cout << "\tparent kind is " << toStdString(parent.kind) << endl;
 
 
     string cursorSpelling = toStdString(cursor);
@@ -468,6 +468,12 @@ cout << "Top cursor is " << cursorSpelling << endl;
 
 
     } // end of class/struct decl
+
+    if ( cursor.kind == CXCursor_Namespace )
+    {
+        cout << "Found namespace: " << toStdString(cursor) << endl;
+        return CXChildVisit_Recurse;
+    }
 
     return CXChildVisit_Continue;
 }
