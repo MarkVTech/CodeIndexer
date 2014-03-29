@@ -131,7 +131,7 @@ cout << endl << "============ METHOD =====================" << endl;
     string cursorSpelling = toStdString(cursor);
     cout << "Method is " << cursorSpelling << endl;
     CXType type = clang_getCursorType(cursor);
-    cout << "\ttype is " << toStdString(type) << endl;
+    cout << "\tsignature is " << toStdString(type) << endl;
 
 
     int nargs = clang_Cursor_getNumArguments(cursor);
