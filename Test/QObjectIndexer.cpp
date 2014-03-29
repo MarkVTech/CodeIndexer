@@ -29,20 +29,10 @@ cout << endl << "============ DESTRUCTOR =====================" << endl;
 
     CXCursor cursors[numTokens];
     clang_annotateTokens(tu, tokens, numTokens, cursors);
-    cout << "numTokens " << numTokens << endl;
 
     string cursorSpelling = toStdString(cursor);
-    cout << "Method is " << cursorSpelling << endl;
-    //toStdString(type) << endl;
+    cout << "Destructor is " << cursorSpelling << endl;
 
-
-    for ( unsigned int idx=0; idx<numTokens; ++idx)
-    {
-        string tokenStr = toStdString(tokens[idx], tu);
-        cout << "\ttoken: " << tokenStr;
-        cout << "\tcursor: " << toStdString(cursors[idx]) << endl;;
-        cout << "\tcursor kind: " << toStdString(cursors[idx].kind) << endl;
-    }
 cout << "=========================================" << endl << endl;
 
     return numTokens;
@@ -65,29 +55,10 @@ cout << endl << "============ BASE SPEC ======================" << endl;
 
     CXCursor cursors[numTokens];
     clang_annotateTokens(tu, tokens, numTokens, cursors);
-    cout << "numTokens " << numTokens << endl;
 
     string cursorSpelling = toStdString(cursor);
     cout << "Base class is " << cursorSpelling << endl;
-    //toStdString(type)) << endl;
-    int nargs = clang_Cursor_getNumArguments(cursor);
 
-    for ( int i=0; i < nargs; i++ )
-    {
-        CXCursor arg = clang_Cursor_getArgument(cursor, i);
-        CXType argType = clang_getCursorType(arg);
-        CXType canArgType = clang_getCanonicalType(argType);
-        cout << "\tArg type is " << toStdString(canArgType) << endl;
-    }
-
-
-    for ( unsigned int idx=0; idx<numTokens; ++idx)
-    {
-        string tokenStr = toStdString(tokens[idx],tu);
-        cout << "\ttoken: " << tokenStr;
-        cout << "\tcursor: " << toStdString(cursors[idx]) << endl;
-        cout << "\tcursor kind: " << toStdString(cursors[idx]) << endl;
-    }
 cout << "=========================================" << endl << endl;
 
     return numTokens;
@@ -110,11 +81,11 @@ cout << endl << "============ CONSTRUCTOR =====================" << endl;
 
     CXCursor cursors[numTokens];
     clang_annotateTokens(tu, tokens, numTokens, cursors);
-    cout << "numTokens " << numTokens << endl;
 
     string cursorSpelling = toStdString(cursor);
-    cout << "Method is " << cursorSpelling << endl;
-    //getClangString(clang_getTypeSpelling(type )) << endl;
+    cout << "Constructor is " << cursorSpelling << endl;
+    CXType type = clang_getCursorType(cursor);
+    cout << "\ttype is " << toStdString(type) << endl;
     int nargs = clang_Cursor_getNumArguments(cursor);
 
     for ( int i=0; i < nargs; i++ )
@@ -128,11 +99,6 @@ cout << endl << "============ CONSTRUCTOR =====================" << endl;
 
     for ( unsigned int idx=0; idx<numTokens; ++idx)
     {
-        string tokenStr = toStdString(tokens[idx], tu);
-        cout << "\ttoken: " << tokenStr;
-        cout << "\tcursor: " << toStdString(cursors[idx]);
-        cout << "\tcursor kind: " << toStdString(cursors[idx].kind) << endl;
-
         CXCursorKind cursorKind = cursors[idx].kind;
         if ( cursorKind == CXCursor_ParmDecl )
         {
@@ -161,13 +127,14 @@ cout << endl << "============ METHOD =====================" << endl;
 
     CXCursor cursors[numTokens];
     clang_annotateTokens(tu, tokens, numTokens, cursors);
-    cout << "numTokens " << numTokens << endl;
 
     string cursorSpelling = toStdString(cursor);
     cout << "Method is " << cursorSpelling << endl;
-    //getClangString(clang_getTypeSpelling(type )) << endl;
-    int nargs = clang_Cursor_getNumArguments(cursor);
+    CXType type = clang_getCursorType(cursor);
+    cout << "\ttype is " << toStdString(type) << endl;
 
+
+    int nargs = clang_Cursor_getNumArguments(cursor);
 
     for ( int i=0; i < nargs; i++ )
     {
@@ -181,9 +148,6 @@ cout << endl << "============ METHOD =====================" << endl;
     for ( unsigned int idx=0; idx<numTokens; ++idx)
     {
         string tokenStr = toStdString(tokens[idx], tu);
-        cout << "\ttoken: " << tokenStr;
-        cout << "\tcursor: " << toStdString(cursors[idx]);
-        cout << "\tcursor kind: " << toStdString(cursors[idx].kind) << endl;
 
         CXCursorKind cursorKind = cursors[idx].kind;
         if ( cursorKind == CXCursor_ParmDecl )
@@ -218,18 +182,11 @@ cout << endl << "============ PARM =====================" << endl;
 
     CXCursor cursors[numTokens];
     clang_annotateTokens(tu, tokens, numTokens, cursors);
-    cout << "numTokens " << numTokens << endl;
 
     string cursorSpelling = toStdString(cursor);
-    cout << "Parm is " << cursorSpelling << endl;
-
-    for ( unsigned int idx=0; idx<numTokens; ++idx)
-    {
-        string tokenStr = toStdString(tokens[idx], tu);
-        cout << "\ttoken: " << tokenStr;
-        cout << "\tcursor: " << toStdString(cursors[idx]);
-        cout << "\tcursor kind: " << toStdString(cursors[idx].kind) << endl;
-    }
+    CXType type = clang_getCursorType(cursor);
+    cout << "Parm is " << cursorSpelling << " of type " << toStdString(type) <<
+        endl;
 
     string lastToken = toStdString(tokens[numTokens-1], tu);
         if ( lastToken == "public" || lastToken == "private" ||
@@ -257,12 +214,11 @@ cout << endl << "============ FIELD DECL ================" << endl;
 
     CXCursor cursors[numTokens];
     clang_annotateTokens(tu, tokens, numTokens, cursors);
-    cout << "numTokens " << numTokens << endl;
 
     string cursorSpelling = toStdString(cursor);
-    cout << "Field is " << cursorSpelling << endl;
     CXType type = clang_getCursorType(cursor);
-    cout << "\tType is " << toStdString(type) << endl;
+    cout << "Field is " << cursorSpelling << " of type " <<
+        toStdString(type) << endl;
 
 cout << "=========================================" << endl << endl;
     return numTokens;
@@ -284,19 +240,24 @@ cout << endl << "=============== ENUM ==================" << endl;
 
     CXCursor cursors[numTokens];
     clang_annotateTokens(tu, tokens, numTokens, cursors);
-    cout << "numTokens " << numTokens << endl;
 
     string cursorSpelling = toStdString(cursor);
     cout << "Field is " << cursorSpelling << endl;
     CXType type = clang_getCursorType(cursor);
     cout << "\tType is " << toStdString(type) << endl;
 
+
     for ( unsigned int idx=0; idx<numTokens; ++idx)
     {
         string tokenStr = toStdString(tokens[idx], tu);
-        cout << "\ttoken: " << tokenStr;
-        cout << "\tcursor: " << toStdString(cursors[idx]);
-        cout << "\tcursor kind: " << toStdString(cursors[idx].kind) << endl;
+        //cout << "\ttoken: " << tokenStr;
+        //cout << "\tcursor: " << toStdString(cursors[idx]);
+        //cout << "\tcursor kind: " << toStdString(cursors[idx].kind) << endl;
+
+        if ( cursors[idx].kind == CXCursor_EnumConstantDecl )
+        {
+            cout << "\tEnum constant " << tokenStr << endl;
+        }
     }
 cout << "=========================================" << endl << endl;
 
@@ -307,7 +268,6 @@ unsigned int QObjectIndexer::
 extractRecord_(CXCursor cursor, const string& parentName)
 {
 cout << endl << "=============== RECORD ==================" << endl;
-cout << "* parentName is " << parentName << " *" << endl;
     unsigned int numTokens=0;
 
     string tokenStr = "";
@@ -320,9 +280,7 @@ cout << "* parentName is " << parentName << " *" << endl;
         return CXChildVisit_Continue;
 
     string cursorSpelling = toStdString(cursor);
-    
     string thisCursor = cursorSpelling;
-    cout << "thisCursor = " << thisCursor << endl;
 
     CXTranslationUnit tu = clang_Cursor_getTranslationUnit(cursor);
     CXSourceRange range = clang_getCursorExtent(cursor);
@@ -339,7 +297,6 @@ cout << "* parentName is " << parentName << " *" << endl;
         // Tokenize the class, and annotate the tokens with cursors
         //
         CXToken* tokens = 0;
-        //unsigned int numTokens = 0;
         clang_tokenize(tu, range, &tokens, &numTokens);
 
         CXCursor cursors[numTokens];
@@ -351,7 +308,6 @@ cout << "* parentName is " << parentName << " *" << endl;
         for ( unsigned int tidx=0; tidx<numTokens; ++tidx)
         {
             tokenStr = toStdString(tokens[tidx], tu);
-            cout << "token[" << tidx << "] = " << tokenStr <<  endl;
 
             CXCursorKind cursorKind = cursors[tidx].kind;
 
@@ -416,7 +372,6 @@ cout << "* parentName is " << parentName << " *" << endl;
             }
        }
        }
-cout << "Returning " << numTokens << " tokens" << endl;
 cout << "=========================================" << endl << endl;
 
     return numTokens;
@@ -425,10 +380,6 @@ cout << "=========================================" << endl << endl;
 CXChildVisitResult QObjectIndexer::
 visit(CXCursor cursor, CXCursor parent)
 {
-    //string parentSpelling =
-         //getClangString(clang_getCursorSpelling(parent));
-     //cout << "***** parent is " << parentSpelling << endl;
-
     string tokenStr = "";
     string currentAccess = "";
 

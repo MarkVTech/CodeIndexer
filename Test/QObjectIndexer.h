@@ -41,6 +41,8 @@ private:
     unsigned int extractEnumDecl_(CXCursor cursor);
     unsigned int extractRecord_(CXCursor cursor, const std::string& name);
 
+    void dump_(CXToken tokens[], CXCursor cursors[], unsigned int count);
+
     std::vector<AccessLocation> accessLocations_;
 
     std::string currentRecord_;
